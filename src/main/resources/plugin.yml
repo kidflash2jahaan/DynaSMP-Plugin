@@ -1,0 +1,9 @@
+name: DynaSMP
+version: '1.0'
+main: systemerr.dynasmp.Main
+api-version: '1.21'
+
+commands:
+  howtoplay:
+    description: How to Play
+    usage: /<command>
