@@ -22,6 +22,10 @@ public class Timer {
     public static BossBar bossbar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SEGMENTED_20);
 
     public static void update() {
+        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock 0 319 0 minecraft:bedrock");
+        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock 0 -64 0 minecraft:bedrock");
+        getServer().dispatchCommand(getServer().getConsoleSender(), "fill 0 318 0 0 -63 0 minecraft:water");
+        
         bossbar.setTitle("TNT Explodes In: " + timer);
         bossbar.setProgress((double) timer / cooldown);
         bossbar.setVisible(true);

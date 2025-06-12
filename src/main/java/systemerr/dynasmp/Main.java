@@ -16,12 +16,12 @@ import static systemerr.dynasmp.Utils.toTicks;
 
 public final class Main extends JavaPlugin implements Listener {
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static int spawn = 1000;
 
     @Override
     public void onEnable() {
         Objects.requireNonNull(this.getCommand("howtoplay")).setExecutor(new HowToPlay());
-        getServer().dispatchCommand(getServer().getConsoleSender(), "gamerule spawnRadius " + spawn);
+        getServer().dispatchCommand(getServer().getConsoleSender(), "gamerule spawnRadius 0");
+        getServer().dispatchCommand(getServer().getConsoleSender(), "setworldspawn 0 319 0");
         getServer().getPluginManager().registerEvents(this, this);
         getScheduler().scheduleSyncRepeatingTask(this, Timer::update, 0, toTicks(1));
     }
