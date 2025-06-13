@@ -2,11 +2,15 @@ package systemerr.dynasmp;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static org.bukkit.Bukkit.getOnlinePlayers;
@@ -22,9 +26,19 @@ public class Timer {
     public static BossBar bossbar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SEGMENTED_20);
 
     public static void update() {
-        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock 0 319 0 minecraft:bedrock");
-        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock 0 -64 0 minecraft:bedrock");
-        getServer().dispatchCommand(getServer().getConsoleSender(), "fill 0 318 0 0 -63 0 minecraft:water");
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                getServer().getWorlds().getFirst().getBlockAt(x, 319, z).setType(Material.BEDROCK);
+            }
+        }
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                for (int y = -63; y <= 319; y++) {
+                    getServer().getWorlds().getFirst().getBlockAt(x, y, z).setType(Material.WATER);
+                }
+            }
+        }
+        getServer().getWorlds().getFirst().getBlockAt(0, 319, 0).setType(Material.BEDROCK);
         
         bossbar.setTitle("TNT Explodes In: " + timer);
         bossbar.setProgress((double) timer / cooldown);
@@ -34,9 +48,9 @@ public class Timer {
             getOnlinePlayers().forEach((Consumer<Player>) player -> {
                 if (player.getGameMode() == GameMode.SURVIVAL) {
                     for (int i = 0; i < amount; i++) {
-                        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock " + Math.round(player.getX()) + " " + (Math.round(player.getY()) + height + 1) + " " + Math.round(player.getZ()) + " minecraft:redstone_block");
-                        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock " + Math.round(player.getX()) + " " + (Math.round(player.getY()) + height) + " " + Math.round(player.getZ()) + " minecraft:tnt");
-                        getServer().dispatchCommand(getServer().getConsoleSender(), "setblock " + Math.round(player.getX()) + " " + (Math.round(player.getY()) + height + 1) + " " + Math.round(player.getZ()) + " minecraft:air");
+                        player.getWorld().getBlockAt((int) Math.round(player.getX()), (int) (Math.round(player.getY()) + height + 1), (int) Math.round(player.getZ())).setType(Material.REDSTONE_BLOCK);
+                        player.getWorld().getBlockAt((int) Math.round(player.getX()), (int) (Math.round(player.getY()) + height), (int) Math.round(player.getZ())).setType(Material.TNT);
+                        player.getWorld().getBlockAt((int) Math.round(player.getX()), (int) (Math.round(player.getY()) + height + 1), (int) Math.round(player.getZ())).setType(Material.AIR);
                     }
                 }
             });
@@ -47,6 +61,6 @@ public class Timer {
         }
 
         timer--;
-        log.info(String.valueOf(timer));
+//        log.info(String.valueOf(timer));
     }
 }
