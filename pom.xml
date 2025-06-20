@@ -6,7 +6,7 @@
 
     <groupId>systemerr</groupId>
     <artifactId>dynasmp</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.4-fix1</version>
     <packaging>jar</packaging>
 
     <name>dynasmp</name>
